@@ -1,0 +1,29 @@
+---
+
+- name: Split passwd line.
+  ansible.builtin.set_fact:
+    etc_passwd: "{{ passwd_line.split(':') }}"
+
+- name: Split userinfo.
+  ansible.builtin.set_fact:
+    user_info_all: "{{ etc_passwd[4].split(',') }}"
+  when: etc_passwd[0] not in exclude_users_list
+
+- name: Add user data to list.
+  ansible.builtin.set_fact:
+    temp:
+      - {
+        name: "{{ etc_passwd[0] }}",
+        uid: "{{ etc_passwd[2] }}",
+        gid: "{{ etc_passwd[3] }}",
+        userinfo: "{{ etc_passwd[4] }}",
+        fullname: "{{ user_info_all[0] }}",
+        home: "{{ etc_passwd[5] }}",
+        shell: "{{ etc_passwd[6] }}"
+      }
+  when: etc_passwd[0] not in exclude_users_list
+
+- name: Add user object to list.
+  ansible.builtin.set_fact:
+    my_dict: "{{ my_dict + temp }}"
+  when: etc_passwd[0] not in exclude_users_list

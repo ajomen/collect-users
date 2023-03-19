@@ -1,0 +1,25 @@
+galaxy_info:
+  author: Albert Mendes
+  description: Collects information about users from /etc/passwd.
+
+  license: MIT
+
+  min_ansible_version: 2.9
+
+  platforms:
+    - name: Ubuntu
+      versions:
+        - bionic
+        - focal
+        - jammy
+
+  galaxy_tags:
+    - userinfo
+    - user
+    - users
+    - etcpasswd
+
+dependencies: []
+# List your role dependencies here, one per line.
+# Be sure to remove the '[]' above,
+# if you add dependencies to this list.

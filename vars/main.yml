@@ -1,0 +1,15 @@
+---
+
+# A name for the variable name that will be populated with the user objects.
+# This variable can also be set in an inventory or form the command line
+# and will then be used instead.
+users_list_name: "users_list"
+
+single_users_list: []
+# List users to get data for here.
+# If empty, all users except the excluded ones will be used.
+exclude_users_list: []
+# List users to exclude here, one per line. Be sure to remove the '[]' above,
+
+# If false or not defined, ALL users of the system will be used.
+only_home_users: true

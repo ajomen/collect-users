@@ -1,0 +1,14 @@
+---
+
+- name: Get users.
+  shell: >
+    grep -E '(root:x:0:0:root:/root:|^.+:x:[0-9]+:[0-9]+:.*?:/home)'
+    /etc/passwd | grep -v '/nologin'
+  register: users_etc_passwd
+  changed_when: false
+
+- name: Add user.
+  ansible.builtin.include_tasks: "add_user.yml"
+  loop: "{{ users_etc_passwd.stdout_lines }}"
+  loop_control:
+    loop_var: passwd_line

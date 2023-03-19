@@ -1,0 +1,12 @@
+---
+
+- name: Get users.
+  shell: cat /etc/passwd
+  register: users_etc_passwd
+  changed_when: false
+
+- name: Add user.
+  ansible.builtin.include_tasks: "add_user.yml"
+  loop: "{{ users_etc_passwd.stdout_lines }}"
+  loop_control:
+    loop_var: passwd_line

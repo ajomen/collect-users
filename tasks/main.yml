@@ -1,0 +1,30 @@
+---
+
+- name: Set user_list from inventory if available
+  ansible.builtin.set_fact:
+    exclude_users_list: "{{ hostvars[inventory_hostname].exclude_users_list }}"
+  when: hostvars[inventory_hostname].exclude_users_list is defined
+
+- name: Get all home users.
+  # includes add_user.yml
+  ansible.builtin.include_tasks: "get_all_home_users.yml"
+  when: >
+    ((single_users_list is not defined) or
+    (single_users_list is defined and single_users_list | length == 0)) and
+    (only_home_users is defined and only_home_users == true)
+
+- name: Get ALL users.
+  # includes add_user.yml
+  ansible.builtin.include_tasks: "get_all_users.yml"
+  when: >
+    only_home_users is not defined or
+    (only_home_users is defined and only_home_users == false)
+
+- name: Get single users.
+  ansible.builtin.include_tasks: "single_users/get_single_users.yml"
+  when: single_users_list is defined and
+    single_users_list | length > 0
+
+- name: Set output variable.
+  ansible.builtin.set_fact:
+    "{{ users_list_name }}": "{{ my_dict }}"

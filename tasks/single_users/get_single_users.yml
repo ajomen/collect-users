@@ -1,0 +1,7 @@
+---
+
+- name: Grep for single users.
+  ansible.builtin.include_tasks: "single_users/add_single_user.yml"
+  loop: "{{ single_users_list }}"
+  loop_control:
+    loop_var: user

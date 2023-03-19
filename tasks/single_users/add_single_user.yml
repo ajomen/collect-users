@@ -1,0 +1,19 @@
+---
+
+- name: Grep for user.
+  shell: grep -w "{{ user }}" /etc/passwd || echo "Fail"
+  register: user_etc_passwd
+  changed_when: false
+
+- name: Add user.
+  ansible.builtin.include_tasks: "add_user.yml"
+  loop: "{{ user_etc_passwd.stdout_lines }}"
+  loop_control:
+    loop_var: passwd_line
+  when: user_etc_passwd.stdout != "Fail"
+
+- name: User does not exist.
+  fail:
+    msg: User "{{ user }}" does not exist.
+  when: user_etc_passwd.stdout == "Fail"
+  ignore_errors: true
