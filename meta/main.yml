@@ -2,7 +2,7 @@ galaxy_info:
   author: Albert Mendes
   description: Collects information about users from /etc/passwd.
 
-  license: MIT
+  license_file: LICENSE
 
   min_ansible_version: 2.9
 
